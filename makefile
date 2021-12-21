@@ -10,6 +10,9 @@ all:
 help: 
 	echo "Help"
 
+run:
+	src/tts.sh
+
 install:
 	chmod +x $(install_script_path)
 	$(install_script_path)

@@ -1,3 +1,3 @@
 #!/bin/bash
 
-/home/anton/Programs/tts.py --read="$(xclip -o)"
+~/Documents/tts/src/tts.py --read="$(xclip -o)"
