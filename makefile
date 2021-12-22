@@ -11,7 +11,7 @@ help:
 	echo "Help"
 
 run:
-	src/tts.sh
+	src/tts.sh Documents/tts/src
 
 install:
 	chmod +x $(install_script_path)
