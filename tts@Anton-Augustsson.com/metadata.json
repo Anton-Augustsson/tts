@@ -1,0 +1,8 @@
+{
+  "name": "tts",
+  "description": "A text to speech application",
+  "uuid": "tts@Anton-Augustsson.com",
+  "shell-version": [
+    "3.36"
+  ]
+}
