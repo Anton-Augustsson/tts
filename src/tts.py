@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+#https://www.python.org/dev/peps/pep-0257/#handling-docstring-indentation
+#https://realpython.com/documenting-python-code/
+#https://www.python.org/dev/peps/pep-0008/
 from gtts import gTTS
 import sys, getopt
 import os 
