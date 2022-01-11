@@ -31,7 +31,8 @@ const PopupMenu = imports.ui.popupMenu;
 const Slider = imports.ui.slider
 
 const Lang = imports.lang;
-
+const Util = imports.misc.util;
+const PathToTts = '/home/anton/Programs/tts.sh'
 
 const HelloWorld_Indicator = new Lang.Class({
     Name: 'HelloWorld.indicator',
@@ -42,15 +43,16 @@ const HelloWorld_Indicator = new Lang.Class({
 
         // Add an icon
         let icon = new St.Icon({
-            gicon: new Gio.ThemedIcon({name: 'face-laugh-symbolic'}),
+            gicon: new Gio.ThemedIcon({name: 'face-cool-symbolic'}),
             style_class: 'system-status-icon'
         });
-	
-
         this.actor.add_child(icon);
-        
+
+
+        //Util.spawn(['/home/anton/Programs/tts.sh'])
+        //Main.notify('Example Notification', 'Hello World !')
         let menuItem = new PopupMenu.PopupMenuItem('Play/Pause');
-        menuItem.actor.connect('button-press-event', function(){ Main.notify('Example Notification', 'Hello World !') });
+        menuItem.actor.connect('button-press-event', function(){ Util.spawn([PathToTts]) });
         //menuItem.actor.connect('button-press-event', function(){ Main.notify('Change play speed') });
 
         //let switchItem = new PopupMenu.PopupSwitchMenuItem("hello world");
@@ -60,6 +62,9 @@ const HelloWorld_Indicator = new Lang.Class({
         // We create our slider for the Panel AggregateMenu
         this._item = new PopupMenu.PopupBaseMenuItem({activate: false});
         this.menu.addMenuItem(this._item);
+
+        let slider_label = new St.Label({ text: "Speed: " });
+        this._item.add_child(slider_label);
 
         // Create the slider
         this._slider = new Slider.Slider(0);
