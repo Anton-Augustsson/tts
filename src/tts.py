@@ -5,14 +5,20 @@
 from gtts import gTTS
 import sys, getopt
 import os 
+import json
+from distutils import util
+from DefaultSettings import DefaultSettings
 
 class Inputs:
+
    def __init__(self, args):
-      self.speed       = ''
-      self.input_file  = '' 
-      self.output_file = ''
-      self.input_text  = ''
-      self.speak       = False
+      d = DefaultSettings()
+      defaultSettings = d.default_settings
+      self.speed       = int(defaultSettings['speed']) # TODO: cleanup have a get method instead
+      self.input_file  = defaultSettings['input_file']
+      self.output_file = defaultSettings['output_file']
+      self.input_text  = defaultSettings['input_text']
+      self.speak       = bool(util.strtobool(defaultSettings['speak']))
       self.readInput(argv=args)
 
    def readInput(self, argv):
@@ -39,7 +45,7 @@ class Inputs:
 
       def opt_read(arg):
          """Selects the speak option and saves the text to speak"""
-         self.input_text = arg
+         self.input_text = arg #FIXME: xclip can give junk that can not be read have a check.
          self.speak      = True
 
       def opt_speed(arg):
@@ -92,7 +98,7 @@ def main(argv=sys.argv[1:]):
    def saveMp3(text="", output_file="output_file.mp3"):
       """Save the text to read to the output_file"""
       tts = gTTS(text)
-      print(output_file)
+      #print(output_file)
       tts.save(output_file)
     
    def speak(output_file="output_file.mp3", speed=1):
