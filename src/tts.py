@@ -14,7 +14,7 @@ class Inputs:
    def __init__(self, args):
       d = DefaultSettings()
       defaultSettings = d.default_settings
-      self.speed       = int(defaultSettings['speed']) # TODO: cleanup have a get method instead
+      self.speed       = round(float(defaultSettings['speed']), 1) # TODO: cleanup have a get method instead
       self.input_file  = defaultSettings['input_file']
       self.output_file = defaultSettings['output_file']
       self.input_text  = defaultSettings['input_text']

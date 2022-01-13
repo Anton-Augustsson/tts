@@ -1,10 +1,12 @@
+#!/usr/bin/python3
+
 import json
-from os import write
-import sys, getopt
+import sys
+import os
 
 class DefaultSettings:
     def __init__(self):
-        self.file_path = "src/defaultSettings.json"
+        self.file_path = os.path.dirname(os.path.realpath(__file__)) + "/defaultSettings.json"
         self.default_settings = self.read_default_settings()
         
     def read_default_settings(self):
@@ -23,7 +25,7 @@ class DefaultSettings:
         self.write_default_settings(self.default_settings)
 
 if __name__ == "__main__":
-   d = DefaultSettings()
-   d.set_speed(sys.argv[1]) #TODO: don't hard code the index
+    d = DefaultSettings()
+    d.set_speed(sys.argv[1]) #TODO: don't hard code the index
 
 
