@@ -19,68 +19,63 @@
 /* exported init */
 
 //https://wiki.gnome.org/Projects/GnomeShell/Extensions/EcoDoc/Applet
-const St = imports.gi.St;
+const St  = imports.gi.St;
 const Gio = imports.gi.Gio;
-
 const ExtensionUtils = imports.misc.extensionUtils;
-const Me = ExtensionUtils.getCurrentExtension();
-const Main = imports.ui.main;
+const Util           = imports.misc.util;
+const Main      = imports.ui.main;
 const PanelMenu = imports.ui.panelMenu;
-//import { PopupMenuExample } from './popup.js';
 const PopupMenu = imports.ui.popupMenu;
-const Slider = imports.ui.slider
-
+const Slider    = imports.ui.slider
+const Me = ExtensionUtils.getCurrentExtension();
 const Lang = imports.lang;
-const Util = imports.misc.util;
-const PathToTts = '/home/anton/Programs/tts.sh'
+
+const PathHome          = '/home/anton'
+const PathToTts         = PathHome + '/Programs/tts/tts.sh'
+const PathToSetTtsSpeed = PathHome + '/Programs/tts/setDefaultSettings.sh'
 
 const HelloWorld_Indicator = new Lang.Class({
     Name: 'HelloWorld.indicator',
     Extends: PanelMenu.Button   ,
 
+    //_init: function(){
     _init: function(){
         this.parent(0.0);
 
-        // Add an icon
+        // Add an icon to display for Panel menu
         let icon = new St.Icon({
             gicon: new Gio.ThemedIcon({name: 'face-cool-symbolic'}),
             style_class: 'system-status-icon'
         });
         this.actor.add_child(icon);
 
-
-        //Util.spawn(['/home/anton/Programs/tts.sh'])
-        //Main.notify('Example Notification', 'Hello World !')
+        // Play/pause menu button
         let menuItem = new PopupMenu.PopupMenuItem('Play/Pause');
         menuItem.actor.connect('button-press-event', function(){ Util.spawn([PathToTts]) });
-        //menuItem.actor.connect('button-press-event', function(){ Main.notify('Change play speed') });
-
-        //let switchItem = new PopupMenu.PopupSwitchMenuItem("hello world");
 
         this.menu.addMenuItem(menuItem);
 
-        // We create our slider for the Panel AggregateMenu
+        // Create slider component
         this._item = new PopupMenu.PopupBaseMenuItem({activate: false});
         this.menu.addMenuItem(this._item);
 
+        // Label for slider
         let slider_label = new St.Label({ text: "Speed: " });
         this._item.add_child(slider_label);
 
-        // Create the slider
-        this._slider = new Slider.Slider(0);
-        //this._sliderChangedId = this._slider.connect('notify::value',
-        //    this._sliderChanged.bind(this));
-        //this._slider.accessible_name = _('Night Light Temperature');
+        // Create the slider itself
+        this._slider = new Slider.Slider(0.5);
+        this._slider.accessible_name = _('Night Light Temperature');
+        this._sliderChangedId   = this._slider.connect('notify::value', () => {
+            let sliderValue     = this._slider.value;
+            let playSpeedString = String( sliderValue + 1 )
+            Util.spawn([PathToSetTtsSpeed, playSpeedString])
+            Main.notify( playSpeedString );
+        });
 
-        //this._slider_icon = new St.Icon({icon_name: 'night-light-symbolic',
-        //    style_class: 'popup-menu-icon'});
-
-        // Add the slider & its icon to the base menu
-        //this._item.add(this._slider_icon);
         this._item.add_child(this._slider);
-        //this.menu.addMenuItem(switchItem);
-        //this.menu.addMenuItem(sliderItem);
     }
+
 });
 
 /* Global variables for use as button to click */
