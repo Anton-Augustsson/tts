@@ -17,3 +17,10 @@ or
 # Other tools that be combind
 - pdftotext
 - https://askubuntu.com/questions/178736/generate-mp3-file-from-espeak
+
+
+https://gtts.readthedocs.io/en/latest/module.html#localized-accents
+https://gtts.readthedocs.io/en/latest/module.html
+https://developers.google.com/admin-sdk/directory/v1/languages
+
+https://wiki.gnome.org/Projects/GnomeShell/Extensions/EcoDoc/Applet

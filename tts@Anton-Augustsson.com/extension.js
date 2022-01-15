@@ -27,12 +27,13 @@ const Main      = imports.ui.main;
 const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
 const Slider    = imports.ui.slider
+//const PopupMenu = imports.ui.popupComboBoxMenuItem
 const Me = ExtensionUtils.getCurrentExtension();
 const Lang = imports.lang;
 
-const PathHome          = '/home/anton'
+const PathHome          = '/home/anton' // Don't hardcode 
 const PathToTts         = PathHome + '/Programs/tts/tts.sh'
-const PathToSetTtsSpeed = PathHome + '/Programs/tts/setDefaultSettings.sh'
+const PathToDefaultSettings = PathHome + '/Programs/tts/DefaultSettings.py'
 
 const HelloWorld_Indicator = new Lang.Class({
     Name: 'HelloWorld.indicator',
@@ -52,8 +53,16 @@ const HelloWorld_Indicator = new Lang.Class({
         // Play/pause menu button
         let menuItem = new PopupMenu.PopupMenuItem('Play/Pause');
         menuItem.actor.connect('button-press-event', function(){ Util.spawn([PathToTts]) });
-
         this.menu.addMenuItem(menuItem);
+
+        // Select langue
+        let sv = new PopupMenu.PopupMenuItem('sv');
+        sv.actor.connect('button-press-event', function(){ Util.spawn([PathToDefaultSettings, '--lang=sv']) });
+        this.menu.addMenuItem(sv)
+
+        let en = new PopupMenu.PopupMenuItem('en');
+        en.actor.connect('button-press-event', function(){ Util.spawn([PathToDefaultSettings, '--lang=en']) });
+        this.menu.addMenuItem(en)
 
         // Create slider component
         this._item = new PopupMenu.PopupBaseMenuItem({activate: false});
@@ -69,11 +78,12 @@ const HelloWorld_Indicator = new Lang.Class({
         this._sliderChangedId   = this._slider.connect('notify::value', () => {
             let sliderValue     = this._slider.value;
             let playSpeedString = String( sliderValue + 1 )
-            Util.spawn([PathToSetTtsSpeed, playSpeedString])
-            Main.notify( playSpeedString );
+            Util.spawn([PathToDefaultSettings, '--speed=' + playSpeedString])
         });
 
         this._item.add_child(this._slider);
+
+
     }
 
 });
