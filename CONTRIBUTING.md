@@ -24,3 +24,10 @@ https://gtts.readthedocs.io/en/latest/module.html
 https://developers.google.com/admin-sdk/directory/v1/languages
 
 https://wiki.gnome.org/Projects/GnomeShell/Extensions/EcoDoc/Applet
+
+tqdm
+
+## Save text in a mp3 buffer and then read that
+https://stackoverflow.com/questions/43941716/how-to-play-mp3-from-bytes
+https://stackoverflow.com/questions/51164040/gtts-direct-output
+https://stackoverflow.com/questions/51434897/how-to-change-audio-playback-speed-using-pydub

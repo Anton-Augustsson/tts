@@ -5,7 +5,10 @@ if [ $# -eq 1 ]
 then
     $HOME/Programs/tts/DefaultSettings.py $1 #TODO: don't hardcode
 # Else the first argument creates the path $HOME/$1/tts.py
+elif [ $# -eq 2 ] 
+then 
+    $2/DefaultSettings.py $1 #TODO: don't hardcode 
 else
-    $HOME/$2/DefaultSettings.py $1 #TODO: don't hardcode 
+    echo "language and or path was not given"
 fi
 

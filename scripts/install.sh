@@ -1,39 +1,20 @@
 #!/bin/bash
 install_tts(){
-    root_dir=scripts
-    os_install_scripts_dir=$root_dir/os_install_scripts
-    intsall_popos_path=$os_install_scripts_dir/install_popos.sh
-    intsall_ubuntu_path=$os_install_scripts_dir/install_ubuntu.sh
+    
+	FILE_PATH_APT=(which apt-get)	
+	FILE_PATH_YUM=(which yum)	
+    	if [ -a $FILE_PATH ]
+    	then
+		sudo apt update
+		sudo apt install python3-pip
 
-    echo "\n\n Which desktop enviroment do you want to install?"
-
-    # Propt for choosing a operating to install
-    select operating_system in popos ubuntu none
-    do
-
-    case $operating_system in
-	"popos")
-    		echo "you have selected $operating_system."
-		chmod +x $intsall_popos_path
-		$intsall_popos_path
-    		break
-    	;;
-    	"ubuntu")
-    		echo "you have selected $operating_system."
-		chmod +x $intsall_ubuntu_path
-		$intsall_ubuntu_path
-    		break
-    	;;
-    	"none")
-    		echo "No desktop enviroment will be installed"
-    		break
-    	;;
-    	# Matching with invalid data
-    	*)
-    		echo "Invalid entry."
-    	;;
-    	esac
-    done
+		pip install 
+	elif [ -a $FILE_PATH_YUM ]
+    	then
+     		echo "yum"
+	else
+		echo "no package manager was found"
+    	fi
 }
 
 # Call the install function
