@@ -22,7 +22,8 @@ test_set_speed_to_one_half:
 test_set_lang_to_sv:
 	$(src)/DefaultSettings.py --lang=sv
 
-test: test_set_speed_to_one_half test_set_lang_to_sv
+test: 
+	python3 -m pytest
 
 requirements:
 	pip install -r requirements.txt
@@ -33,7 +34,7 @@ install_gnome_extension:
 	@echo "\n\tGnome extension is installed!\n"
 
 install_tts:
-	chmod +x ./tts.sh $(src)/tts.py $(src)/setDefaultSettings.sh  $(src)/DefaultSettings.py $(src)/Inputs.py
+	chmod +x ./tts.sh $(src)/tts.py $(src)/Settings.py $(src)/Inputs.py
 	@echo "\n\ttts is now installed\n"	
 
 install: requirements install_gnome_extension install_tts

@@ -33,7 +33,7 @@ const Lang = imports.lang;
 
 const PathHome          = '/home/anton' // Don't hardcode 
 const PathToTts         = PathHome + '/Programs/tts/tts.sh'
-const PathToDefaultSettings = PathHome + '/Programs/tts/src/DefaultSettings.py'
+const PathToDefaultSettings = PathHome + '/Programs/tts/src/Settings.py'
 
 const HelloWorld_Indicator = new Lang.Class({
     Name: 'HelloWorld.indicator',

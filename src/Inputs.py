@@ -1,21 +1,19 @@
 #!/usr/bin/python3
-from gtts import gTTS
-import sys, getopt
-import os 
-from distutils import util
-from DefaultSettings import DefaultSettings
+import sys
+import getopt
+from Settings import Settings
+
 
 class Inputs:
 
    def __init__(self, args=None):
-      d = DefaultSettings()
-
-      self.speed       = d.get_speed()
-      self.input_file  = ""
+      settings = Settings()
+      self.speed = settings.speed
+      self.input_file = ""
       self.output_file = ""
-      self.input_text  = ""
-      self.speak       = False
-      self.lang        = d.get_lang()
+      self.input_text = ""
+      self.speak = False
+      self.lang = settings.lang
 
       self.readInput(argv=args)
 
