@@ -1,3 +1,4 @@
 src/__pycache__/*
 src/personalSettings.json
 *.~undo-tree~
+output_file.mp3

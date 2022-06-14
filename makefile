@@ -1,3 +1,8 @@
+##
+# Python scripts
+#
+# @file
+# @version 0.1
 .PHONY: install all test clean dependencies_apt dependencies
 
 src=./src
@@ -28,6 +33,17 @@ test:
 requirements:
 	pip install -r requirements.txt
 	@echo "\n\tRequirements are ins-talled!\n"
+
+yapf:
+	python3 -m yapf --recursive --in-place .
+
+flake:
+	python3 -m flake8
+
+mypy:
+	python3 -m mypy src
+
+format: yapf flake mypy
 
 install_gnome_extension:
 	cp -r ./$(gnome_extension_name) $(gnome_extensions_path)

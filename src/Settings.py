@@ -73,5 +73,6 @@ class Settings:
     def lang(self, value):
         self.__set_settings(key='lang', value=value)
 
+
 if __name__ == "__main__":
     Settings(sys.argv[1:])
