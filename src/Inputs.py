@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 import sys
 import getopt
-from src.Settings import Settings
+from Settings import Settings  # type: ignore
 
 
 class Inputs:

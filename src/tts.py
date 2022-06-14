@@ -5,7 +5,7 @@
 import os
 import sys
 from gtts import gTTS  # type: ignore
-from src.Inputs import Inputs
+from Inputs import Inputs  # type: ignore
 
 
 def main(argv=sys.argv[1:]):
