@@ -5,7 +5,7 @@
 import os
 import sys
 from gtts import gTTS  # type: ignore
-from Inputs import Inputs  # type: ignore
+from Inputs import read_inputs  # type: ignore
 
 
 def main(argv=sys.argv[1:]):
@@ -37,23 +37,22 @@ def main(argv=sys.argv[1:]):
         sys.exit(0)
 
     # First Read the input
-    inputs = Inputs(args=argv)
+    inputs = read_inputs(argv)
 
     # Save input text to file
-    if inputs.get_input_file():
-        f = open(inputs.get_input_file(), "r")
-        inputs.text = f.read()
-        saveMp3(text=inputs.get_input_text(),
-                output_file=inputs.get_output_file(),
-                lang=inputs.get_lang())
+    if inputs.input_file:
+        f = open(inputs.input_file, "r")
+        saveMp3(text=inputs.input_text,
+                output_file=inputs.output_file,
+                lang=inputs.lang)
         f.close()
 
     # Read input text out loud
-    if inputs.get_speak() and inputs.get_input_text():
-        saveMp3(text=inputs.get_input_text(),
+    if inputs.speak and inputs.input_text:
+        saveMp3(text=inputs.input_text,
                 output_file="output_file.mp3",
-                lang=inputs.get_lang())
-        speak(speed=inputs.get_speed(), output_file="output_file.mp3")
+                lang=inputs.lang)
+        speak(speed=inputs.speed, output_file="output_file.mp3")
 
 
 if __name__ == "__main__":
