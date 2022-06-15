@@ -25,6 +25,7 @@ def read_inputs(argv):
                     speak=False)
     options = {
         "help": '-h',
+        "get_speed": '-s',
         "read": ("--read"),
         "speed": ("--speed"),
         "lang": ("--lang"),
@@ -35,7 +36,7 @@ def read_inputs(argv):
     # Try to read the inputs
     try:
         opts, args = getopt.getopt(
-            argv, "hi:o:", ["read=", "speed=", "lang=", "ifile=", "ofile="])
+            argv, "hsi:o:", ["read=", "speed=", "lang=", "ifile=", "ofile="])
     # If input could net be obtained then exit
     except getopt.GetoptError:
         print('Error run: test.py -i <inputfile> -o <outputfile>')
@@ -46,6 +47,8 @@ def read_inputs(argv):
         if opt == options["help"]:
             print('test.py -i <inputfile> -o <outputfile>')
             sys.exit()
+        elif opt in options["get_speed"]:
+            print(inputs.speed)
         elif opt in options["read"]:
             inputs.input_text = arg  # FIXME: error if no selection.
             inputs.speak = True

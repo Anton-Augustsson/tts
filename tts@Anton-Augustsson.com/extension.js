@@ -21,6 +21,7 @@
 //https://wiki.gnome.org/Projects/GnomeShell/Extensions/EcoDoc/Applet
 const St  = imports.gi.St;
 const Gio = imports.gi.Gio;
+const GLib = imports.gi.GLib;
 const ExtensionUtils = imports.misc.extensionUtils;
 const Util           = imports.misc.util;
 const Main      = imports.ui.main;
@@ -33,13 +34,13 @@ const Lang = imports.lang;
 
 const PathHome          = '/home/anton' // Don't hardcode 
 const PathToTts         = PathHome + '/Programs/tts/tts.sh'
+const PathToTtsPy       = PathHome + '/Programs/tts/src/tts.py'
 const PathToDefaultSettings = PathHome + '/Programs/tts/src/Settings.py'
 
 const HelloWorld_Indicator = new Lang.Class({
     Name: 'HelloWorld.indicator',
     Extends: PanelMenu.Button   ,
 
-    //_init: function(){
     _init: function(){
         this.parent(0.0);
 
@@ -73,11 +74,19 @@ const HelloWorld_Indicator = new Lang.Class({
         this._item.add_child(slider_label);
 
         // Create the slider itself
-        this._slider = new Slider.Slider(0.5);
+	let maxSpeed = 2
+	let minSpeed = 1
+
+	let getSpeedCommand = `${PathToTtsPy} -s`
+	let [, settingsSpeed] = GLib.spawn_command_line_sync(getSpeedCommand);
+	let sliderPosition = settingsSpeed - minSpeed
+        log(`speed ${settingsSpeed}`);
+
+        this._slider = new Slider.Slider(sliderPosition);
         this._slider.accessible_name = _('Night Light Temperature');
         this._sliderChangedId   = this._slider.connect('notify::value', () => {
             let sliderValue     = this._slider.value;
-            let playSpeedString = String( sliderValue + 1 )
+            let playSpeedString = String( sliderValue + minSpeed )
             Util.spawn([PathToDefaultSettings, '--speed=' + playSpeedString])
         });
 

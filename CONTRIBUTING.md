@@ -4,6 +4,7 @@
 - [Gnome Extensions example](https://gitlab.com/justperfection.channel/how-to-create-a-gnome-shell-extension/-/blob/master/example@example.com/extension.js)
 - [Youtube tutorial](https://www.youtube.com/watch?v=iMyR5lJf7dU)
 - [Argos](https://github.com/p-e-w/argos)
+http://justperfection.channel.gitlab.io/how-to-create-a-gnome-extension-documentation/Document.html#some-useful-basics
 
 The genom shell extensions are eather lokated in:
 ```
