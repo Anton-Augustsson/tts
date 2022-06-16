@@ -28,7 +28,6 @@ const Main      = imports.ui.main;
 const PanelMenu = imports.ui.panelMenu;
 const PopupMenu = imports.ui.popupMenu;
 const Slider    = imports.ui.slider
-//const PopupMenu = imports.ui.popupComboBoxMenuItem
 const Me = ExtensionUtils.getCurrentExtension();
 const Lang = imports.lang;
 
@@ -57,13 +56,34 @@ const HelloWorld_Indicator = new Lang.Class({
         this.menu.addMenuItem(menuItem);
 
         // Select langue
-        let sv = new PopupMenu.PopupMenuItem('sv');
-        sv.actor.connect('button-press-event', function(){ Util.spawn([PathToDefaultSettings, '--lang=sv']) });
-        this.menu.addMenuItem(sv)
+	let langItems = new PopupMenu.PopupSubMenuMenuItem('Language');
+	this.menu.addMenuItem(langItems);
+        let sv = new PopupMenu.PopupMenuItem('');
+        let en = new PopupMenu.PopupMenuItem('');
+	let selectedText = "* "
+	let svDefaultText = "sv"
+	let enDefaultText = "en"
+	let svLabel = new St.Label({text: svDefaultText});
+	let enLabel = new St.Label({text: enDefaultText});
 
-        let en = new PopupMenu.PopupMenuItem('en');
-        en.actor.connect('button-press-event', function(){ Util.spawn([PathToDefaultSettings, '--lang=en']) });
-        this.menu.addMenuItem(en)
+	sv.add_child( svLabel );
+	en.add_child( enLabel );
+
+	sv.connect('activate', () => {
+	    log('language selected: sv');
+	    Util.spawn([PathToDefaultSettings, '--lang=sv']);
+	    svLabel.text = selectedText + svDefaultText
+	    enLabel.text = enDefaultText
+	});
+	en.connect('activate', () => {
+	    log('language selected: en');
+	    Util.spawn([PathToDefaultSettings, '--lang=en']);
+	    svLabel.text = svDefaultText
+	    enLabel.text = selectedText + enDefaultText
+	});
+	
+	langItems.menu.addMenuItem( sv );
+	langItems.menu.addMenuItem( en, 0 );
 
         // Create slider component
         this._item = new PopupMenu.PopupBaseMenuItem({activate: false});
@@ -81,6 +101,7 @@ const HelloWorld_Indicator = new Lang.Class({
 	let [, settingsSpeed] = GLib.spawn_command_line_sync(getSpeedCommand);
 	let sliderPosition = settingsSpeed - minSpeed
         log(`speed ${settingsSpeed}`);
+        log(`position of slider ${sliderPosition}`);
 
         this._slider = new Slider.Slider(sliderPosition);
         this._slider.accessible_name = _('Night Light Temperature');
