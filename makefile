@@ -30,6 +30,9 @@ test_set_lang_to_sv:
 test: 
 	python3 -m pytest
 
+debug_gnome_extension:
+	journalctl -f -o cat /usr/bin/gnome-shell
+
 requirements:
 	pip install -r requirements.txt
 	@echo "\n\tRequirements are ins-talled!\n"

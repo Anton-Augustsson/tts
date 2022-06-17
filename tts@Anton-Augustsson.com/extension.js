@@ -31,10 +31,8 @@ const Slider    = imports.ui.slider
 const Me = ExtensionUtils.getCurrentExtension();
 const Lang = imports.lang;
 
-const PathHome          = '/home/anton' // Don't hardcode 
-const PathToTts         = PathHome + '/Programs/tts/tts.sh'
-const PathToTtsPy       = PathHome + '/Programs/tts/src/tts.py'
-const PathToDefaultSettings = PathHome + '/Programs/tts/src/Settings.py'
+const PathHome  = '/home/anton' // Don't hardcode path
+const PathToTts = PathHome + '/Programs/tts/src/tts.py' // Don't hardcode
 
 const HelloWorld_Indicator = new Lang.Class({
     Name: 'HelloWorld.indicator',
@@ -51,18 +49,23 @@ const HelloWorld_Indicator = new Lang.Class({
         this.actor.add_child(icon);
 
         // Play/pause menu button
-        let menuItem = new PopupMenu.PopupMenuItem('Play/Pause');
-        menuItem.actor.connect('button-press-event', function(){ Util.spawn([PathToTts]) });
-        this.menu.addMenuItem(menuItem);
+        let playPauseItem = new PopupMenu.PopupMenuItem('Play/Pause');
+	let textToRead;
+	playPauseItem.connect('activate', () => {
+	    log('play/pause')
+	    textToRead = GLib.spawn_command_line_sync("xclip -o");
+	    Util.spawn([PathToTts, "--read="+textToRead[1]])
+	});
+        this.menu.addMenuItem(playPauseItem);
 
         // Select langue
 	let langItems = new PopupMenu.PopupSubMenuMenuItem('Language');
 	this.menu.addMenuItem(langItems);
         let sv = new PopupMenu.PopupMenuItem('');
         let en = new PopupMenu.PopupMenuItem('');
-	let selectedText = "* "
-	let svDefaultText = "sv"
-	let enDefaultText = "en"
+	let selectedText = "* ";
+	let svDefaultText = "sv";
+	let enDefaultText = "en";
 	let svLabel = new St.Label({text: svDefaultText});
 	let enLabel = new St.Label({text: enDefaultText});
 
@@ -71,13 +74,13 @@ const HelloWorld_Indicator = new Lang.Class({
 
 	sv.connect('activate', () => {
 	    log('language selected: sv');
-	    Util.spawn([PathToDefaultSettings, '--lang=sv']);
+	    Util.spawn([PathToTts, '--lang=sv']);
 	    svLabel.text = selectedText + svDefaultText
 	    enLabel.text = enDefaultText
 	});
 	en.connect('activate', () => {
 	    log('language selected: en');
-	    Util.spawn([PathToDefaultSettings, '--lang=en']);
+	    Util.spawn([PathToTts, '--lang=en']);
 	    svLabel.text = svDefaultText
 	    enLabel.text = selectedText + enDefaultText
 	});
@@ -97,7 +100,7 @@ const HelloWorld_Indicator = new Lang.Class({
 	let maxSpeed = 2
 	let minSpeed = 1
 
-	let getSpeedCommand = `${PathToTtsPy} -s`
+	let getSpeedCommand = `${PathToTts} -s`
 	let [, settingsSpeed] = GLib.spawn_command_line_sync(getSpeedCommand);
 	let sliderPosition = settingsSpeed - minSpeed
         log(`speed ${settingsSpeed}`);
@@ -108,7 +111,7 @@ const HelloWorld_Indicator = new Lang.Class({
         this._sliderChangedId   = this._slider.connect('notify::value', () => {
             let sliderValue     = this._slider.value;
             let playSpeedString = String( sliderValue + minSpeed )
-            Util.spawn([PathToDefaultSettings, '--speed=' + playSpeedString])
+            Util.spawn([PathToTts, '--speed=' + playSpeedString])
         });
 
         this._item.add_child(this._slider);

@@ -54,8 +54,11 @@ def read_inputs(argv):
             inputs.speak = True
         elif opt in options["speed"]:
             inputs.speed = float(arg)
+            settings.speed = inputs.speed  # Update personal settings json
         elif opt in options["lang"]:
+            # TODO: check if arg is a valid language
             inputs.lang = arg
+            settings.lang = inputs.lang  # Update personal settings json
         elif opt in options["input"]:
             inputs.input_file = arg
         elif opt in options["output"]:
