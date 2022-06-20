@@ -8,7 +8,7 @@
 src=./src
 gnome_extensions_path=~/.local/share/gnome-shell/extensions
 gnome_extension_name=tts@Anton-Augustsson.com
-
+system_highlighted_text=$(shell xclip -o) 
 
 all: install test
 
@@ -16,16 +16,13 @@ help:
 	@cat ./README.md
 
 run:
-	./tts.sh
+	./main.py --read="$(system_highlighted_text)"
+
+run_en:
+	./main.py --read="$(system_highlighted_text)" --lang="en"
 
 run_se:
-	./tts.sh sv
-
-test_set_speed_to_one_half:
-	$(src)/DefaultSettings.py --speed=2
-
-test_set_lang_to_sv:
-	$(src)/DefaultSettings.py --lang=sv
+	./main.py --read="$(system_highlighted_text)" --lang="sv"
 
 test: 
 	python3 -m pytest
@@ -35,7 +32,7 @@ debug_gnome_extension:
 
 requirements:
 	pip install -r requirements.txt
-	@echo "\n\tRequirements are ins-talled!\n"
+	@echo "\n\tRequirements are installed!\n"
 
 yapf:
 	python3 -m yapf --recursive --in-place .
@@ -53,7 +50,7 @@ install_gnome_extension:
 	@echo "\n\tGnome extension is installed!\n"
 
 install_tts:
-	chmod +x ./tts.sh $(src)/tts.py $(src)/Settings.py $(src)/Inputs.py
+	chmod +x ./main.py ./tts.sh
 	@echo "\n\ttts is now installed\n"	
 
 install: requirements install_gnome_extension install_tts

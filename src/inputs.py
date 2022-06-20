@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 import sys
 import getopt
-from Settings import Settings  # type: ignore
+from src.settings import Settings
 from dataclasses import dataclass
 
 

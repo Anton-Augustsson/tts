@@ -32,7 +32,7 @@ const Me = ExtensionUtils.getCurrentExtension();
 const Lang = imports.lang;
 
 const PathHome  = '/home/anton' // Don't hardcode path
-const PathToTts = PathHome + '/Programs/tts/src/tts.py' // Don't hardcode
+const PathToTts = PathHome + '/Programs/tts/main.py' // Don't hardcode
 
 const HelloWorld_Indicator = new Lang.Class({
     Name: 'HelloWorld.indicator',
