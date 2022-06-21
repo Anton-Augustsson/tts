@@ -3,3 +3,7 @@ src/personalSettings.json
 *.~undo-tree~
 output_file.mp3
 *.swp
+build
+dist
+*.spec
+

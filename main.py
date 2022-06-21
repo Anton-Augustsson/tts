@@ -6,6 +6,7 @@ import os
 import sys
 from gtts import gTTS  # type: ignore
 from src.inputs import read_inputs
+from src.constants import DEFAULT_SOUND_FILE_OUTPUT
 
 
 def main(argv=sys.argv[1:]):
@@ -50,9 +51,9 @@ def main(argv=sys.argv[1:]):
     # Read input text out loud
     if inputs.speak and inputs.input_text:
         saveMp3(text=inputs.input_text,
-                output_file="output_file.mp3",
+                output_file=DEFAULT_SOUND_FILE_OUTPUT,
                 lang=inputs.lang)
-        speak(speed=inputs.speed, output_file="output_file.mp3")
+        speak(speed=inputs.speed, output_file=DEFAULT_SOUND_FILE_OUTPUT)
 
 
 if __name__ == "__main__":

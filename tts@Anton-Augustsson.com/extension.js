@@ -30,9 +30,7 @@ const PopupMenu = imports.ui.popupMenu;
 const Slider    = imports.ui.slider
 const Me = ExtensionUtils.getCurrentExtension();
 const Lang = imports.lang;
-
-const PathHome  = '/home/anton' // Don't hardcode path
-const PathToTts = PathHome + '/Programs/tts/main.py' // Don't hardcode
+const program_name = 'aatts'
 
 const HelloWorld_Indicator = new Lang.Class({
     Name: 'HelloWorld.indicator',
@@ -54,7 +52,7 @@ const HelloWorld_Indicator = new Lang.Class({
 	playPauseItem.connect('activate', () => {
 	    log('play/pause')
 	    textToRead = GLib.spawn_command_line_sync("xclip -o");
-	    Util.spawn([PathToTts, "--read="+textToRead[1]])
+	    Util.spawn([program_name, "--read="+textToRead[1]])
 	});
         this.menu.addMenuItem(playPauseItem);
 
@@ -74,13 +72,13 @@ const HelloWorld_Indicator = new Lang.Class({
 
 	sv.connect('activate', () => {
 	    log('language selected: sv');
-	    Util.spawn([PathToTts, '--lang=sv']);
+	    Util.spawn([program_name, '--lang=sv']);
 	    svLabel.text = selectedText + svDefaultText
 	    enLabel.text = enDefaultText
 	});
 	en.connect('activate', () => {
 	    log('language selected: en');
-	    Util.spawn([PathToTts, '--lang=en']);
+	    Util.spawn([program_name, '--lang=en']);
 	    svLabel.text = svDefaultText
 	    enLabel.text = selectedText + enDefaultText
 	});
@@ -100,7 +98,7 @@ const HelloWorld_Indicator = new Lang.Class({
 	let maxSpeed = 2
 	let minSpeed = 1
 
-	let getSpeedCommand = `${PathToTts} -s`
+	let getSpeedCommand = `${program_name} -s`
 	let [, settingsSpeed] = GLib.spawn_command_line_sync(getSpeedCommand);
 	let sliderPosition = settingsSpeed - minSpeed
         log(`speed ${settingsSpeed}`);
@@ -111,7 +109,7 @@ const HelloWorld_Indicator = new Lang.Class({
         this._sliderChangedId   = this._slider.connect('notify::value', () => {
             let sliderValue     = this._slider.value;
             let playSpeedString = String( sliderValue + minSpeed )
-            Util.spawn([PathToTts, '--speed=' + playSpeedString])
+            Util.spawn([program_name, '--speed=' + playSpeedString])
         });
 
         this._item.add_child(this._slider);

@@ -1,14 +1,14 @@
 #!/usr/bin/python3
 import os
 import json
+from src.constants import DEFAULT_SETTINGS, PERSONAL_SETTINGS
 
 
 class Settings:
 
     def __init__(self, args=None):
-        dirname = os.path.join(os.path.expanduser('~'), ".local/share/aatts")
-        self.__default_settings_path = dirname + "/defaultSettings.json"
-        self.__personal_settings_path = dirname + "/personalSettings.json"
+        self.__default_settings_path = DEFAULT_SETTINGS
+        self.__personal_settings_path = PERSONAL_SETTINGS
         # TODO: handle if path does not exist
         self.__personal_settings = self.__read_personal_settings()
 

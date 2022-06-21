@@ -9,6 +9,7 @@ src=./src
 gnome_extensions_path=~/.local/share/gnome-shell/extensions
 gnome_extension_name=tts@Anton-Augustsson.com
 system_highlighted_text=$(shell xclip -o) 
+program_name=aatts
 
 all: install test
 
@@ -50,13 +51,15 @@ install_gnome_extension:
 	@echo "\n\tGnome extension is installed!\n"
 
 install_tts:
-	cp -r ./data ~/.local/share/aatts
-	chmod +x ./main.py ./tts.sh
+	cp -r ./data ~/.local/share/$(program_name)
+	pyinstaller --onefile main.py
+	cp ./dist/main ~/.local/bin/$(program_name)
 	@echo "\n\ttts is now installed\n"	
 
 install: requirements install_gnome_extension install_tts
 	@echo "Now you can set up a keybinding for tts. Use $(src)/tts.sh"
 
 clean:
-	rm -r ~/.local/share/aatts
+	rm -r ~/.local/share/$(program_name)
+	rm ~/.local/bin/$(program_name)
 	rm -r $(gnome_extensions_path)/$(gnome_extension_name)
