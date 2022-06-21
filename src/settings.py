@@ -1,36 +1,16 @@
 #!/usr/bin/python3
 import os
-import sys
 import json
-import getopt
 
 
 class Settings:
 
     def __init__(self, args=None):
-        dirname = os.path.dirname(os.path.realpath(__file__))
+        dirname = os.path.join(os.path.expanduser('~'), ".local/share/aatts")
         self.__default_settings_path = dirname + "/defaultSettings.json"
         self.__personal_settings_path = dirname + "/personalSettings.json"
+        # TODO: handle if path does not exist
         self.__personal_settings = self.__read_personal_settings()
-
-        if args:
-            self.__read_input(argv=args)
-
-    def __read_input(self, argv):
-        try:
-            opts, args = getopt.getopt(argv, "h:", ["speed=", "lang="])
-        except getopt.GetoptError:
-            print('test.py -i <inputfile> -o <outputfile>')
-            sys.exit(2)
-
-        for opt, arg in opts:
-            if opt == '-h':
-                print('to be added ')
-                sys.exit()
-            elif opt in "--speed":
-                self.speed = arg
-            elif opt in "--lang":
-                self.lang = arg
 
     def __read_settings(self, settings_path):
         json_file = open(settings_path, "r")
@@ -72,7 +52,3 @@ class Settings:
     @lang.setter
     def lang(self, value):
         self.__set_settings(key='lang', value=value)
-
-
-if __name__ == "__main__":
-    Settings(sys.argv[1:])
