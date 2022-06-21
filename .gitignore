@@ -6,4 +6,5 @@ output_file.mp3
 build
 dist
 *.spec
+tts.sh
 
