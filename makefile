@@ -3,7 +3,7 @@
 #
 # @file
 # @version 0.1
-.PHONY: install all test clean dependencies_apt dependencies
+.PHONY: install all test clean
 
 src=./src
 gnome_extensions_path=~/.local/share/gnome-shell/extensions

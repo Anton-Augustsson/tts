@@ -41,7 +41,8 @@ const HelloWorld_Indicator = new Lang.Class({
 
         // Add an icon to display for Panel menu
         let icon = new St.Icon({
-            gicon: new Gio.ThemedIcon({name: 'face-cool-symbolic'}),
+            //gicon: new Gio.ThemedIcon({name: 'face-cool-symbolic'}),
+            gicon : Gio.icon_new_for_string( Me.dir.get_path() + '/icon.svg' ),
             style_class: 'system-status-icon'
         });
         this.actor.add_child(icon);
