@@ -7,12 +7,12 @@
 
 ## Dependencies
 The following dependencies are needed in order to install and run the program.
-- 'python3'
-- 'pip'
-- 'mpg123'
-- 'xclip'
+- `python3`
+- `pip`
+- `mpg123`
+- `xclip`
 
-See 'requirements.txt' for python dependencies.
+See `requirements.txt` for python dependencies.
 
 ## Installation
 Currently, only linux is supported, preferably with gnome, but not required to run `aatts` just allowed the usage of gnome extension. 
