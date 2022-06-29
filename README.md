@@ -23,3 +23,18 @@ Run `make install` to install the program.
 ![image](img/gnome-extension.png)
 
 The gnome extension will automatically be installed when ruining `make install`.
+
+## Usage
+The currently selected text can be determine with `xclip -o`. This command can be used to then 
+read the currently selected text.
+
+``` bash
+aatts --read="$(xclip -o)"
+```
+
+It is also possible to the speed and language.
+
+``` bash
+aats --speed=1.4 --lang="en"
+```
+
