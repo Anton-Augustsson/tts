@@ -47,6 +47,10 @@ mypy:
 format: yapf flake mypy
 
 install_gnome_extension:
+	chmod +x $(gnome_extension_name)/lang.sh
+	chmod +x $(gnome_extension_name)/read.sh
+	chmod +x $(gnome_extension_name)/speed.sh 
+	chmod +x $(gnome_extension_name)/get_speed.sh
 	cp -r ./$(gnome_extension_name) $(gnome_extensions_path)
 	@echo "\n\tGnome extension is installed!\n"
 
