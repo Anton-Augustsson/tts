@@ -51,6 +51,7 @@ install_gnome_extension:
 	chmod +x $(gnome_extension_name)/read.sh
 	chmod +x $(gnome_extension_name)/speed.sh 
 	chmod +x $(gnome_extension_name)/get_speed.sh
+	chmod +x $(gnome_extension_name)/get_lang.sh
 	cp -r ./$(gnome_extension_name) $(gnome_extensions_path)
 	@echo "\n\tGnome extension is installed!\n"
 

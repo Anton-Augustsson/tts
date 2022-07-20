@@ -31,6 +31,7 @@ const Slider    = imports.ui.slider
 const Me = ExtensionUtils.getCurrentExtension();
 const Lang = imports.lang;
 const program_read = '/read.sh'
+const program_get_lang = '/get_lang.sh'
 const program_lang = '/lang.sh'
 const program_get_speed = '/get_speed.sh'
 const program_speed = '/speed.sh'
@@ -64,25 +65,38 @@ const HelloWorld_Indicator = new Lang.Class({
         let sv = new PopupMenu.PopupMenuItem('');
         let en = new PopupMenu.PopupMenuItem('');
 	let selectedText = "* ";
-	let svDefaultText = "sv";
-	let enDefaultText = "en";
+	let svDefaultText = 'sv';
+	let enDefaultText = 'en';
 	let svLabel = new St.Label({text: svDefaultText});
 	let enLabel = new St.Label({text: enDefaultText});
 
 	sv.add_child( svLabel );
 	en.add_child( enLabel );
 
+	function setLanguage(lang) {
+	    // TODO: very bad solution but doing it dynamily with dict text and label doesent work
+
+	    if ( lang == svDefaultText ) {
+		svLabel.text = selectedText + svDefaultText
+		enLabel.text = enDefaultText
+	    } else {
+		svLabel.text = svDefaultText
+		enLabel.text = selectedText + enDefaultText
+	    };
+	};
+
+	let [, settingsLang] = GLib.spawn_command_line_sync(Me.dir.get_path() + program_get_lang);
+	setLanguage( settingsLang )
+
 	sv.connect('activate', () => {
 	    log('language selected: sv');
-            Util.spawn([Me.dir.get_path() + program_lang, svDefaultText])
-	    svLabel.text = selectedText + svDefaultText
-	    enLabel.text = enDefaultText
+            Util.spawn([Me.dir.get_path() + program_lang, svDefaultText]);
+	    setLanguage('sv');
 	});
 	en.connect('activate', () => {
 	    log('language selected: en');
             Util.spawn([Me.dir.get_path() + program_lang, enDefaultText])
-	    svLabel.text = svDefaultText
-	    enLabel.text = selectedText + enDefaultText
+	    setLanguage('en');
 	});
 	
 	langItems.menu.addMenuItem( sv );
