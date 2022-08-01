@@ -52,19 +52,21 @@ install_gnome_extension:
 	chmod +x $(gnome_extension_name)/speed.sh 
 	chmod +x $(gnome_extension_name)/get_speed.sh
 	chmod +x $(gnome_extension_name)/get_lang.sh
-	cp -r ./$(gnome_extension_name) $(gnome_extensions_path)
+	cp -r $(gnome_extension_name) $(gnome_extensions_path)
 	@echo "\n\tGnome extension is installed!\n"
 
 install_tts:
-	cp -r ./data ~/.local/share/$(program_name)
-	pyinstaller --onefile main.py
-	cp ./dist/main ~/.local/bin/$(program_name)
+	sudo cp -r ./data /usr/share/$(program_name)
+	python -m PyInstaller --onefile main.py
+	#pyinstaller --onefile main.py
+	sudo cp ./dist/main /usr/bin/$(program_name)
+	sudo chmod -R 777 /usr/share/$(program_name)
 	@echo "\n\ttts is now installed\n"	
 
 install: requirements install_gnome_extension install_tts
 	@echo "Now you can set up a keybinding for tts. Use $(src)/tts.sh"
 
 clean:
-	rm -r ~/.local/share/$(program_name)
-	rm ~/.local/bin/$(program_name)
-	rm -r $(gnome_extensions_path)/$(gnome_extension_name)
+	sudo rm -r /usr/share/$(program_name)
+	sudo rm /usr/bin/$(program_name)
+	sudo rm -r $(gnome_extensions_path)/$(gnome_extension_name)
