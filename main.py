@@ -50,10 +50,14 @@ def main(argv=sys.argv[1:]):
 
     # Read input text out loud
     if inputs.speak and inputs.input_text:
-        saveMp3(text=inputs.input_text,
-                output_file=DEFAULT_SOUND_FILE_OUTPUT,
-                lang=inputs.lang)
-        speak(speed=inputs.speed, output_file=DEFAULT_SOUND_FILE_OUTPUT)
+        #os.system(f'gtts-cli "{inputs.input_text}" --lang {inputs.lang} --nocheck | play -t mp3 - speed {inputs.speed}')
+
+        input_cmd = f'{inputs.input_text}'
+        lang_cmd = f'--lang {inputs.lang}'
+        flag_cmd = '--nocheck'
+        gtts_cmd = f'gtts-cli "{input_cmd}" {lang_cmd} {flag_cmd}'
+        mpg123_cmd = f'mpg123 --doublespeed "{inputs.speed}" -'
+        os.system(f'{gtts_cmd} | {mpg123_cmd} ')
 
 
 if __name__ == "__main__":

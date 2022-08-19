@@ -54,8 +54,10 @@ class MyPopup extends PanelMenu.Button {
     // Play/pause menu button
     let playPauseItem = new PopupMenu.PopupMenuItem('Play/Pause');
     playPauseItem.connect('activate', () => {
+	let play_cmd = Me.dir.get_path() + program_read
+	log(`Play command ${play_cmd}`)
+        Util.spawn([play_cmd]);
 	log('play/pause');
-        Util.spawn([Me.dir.get_path() + program_read]);
     });
 
     this.menu.addMenuItem(playPauseItem);
@@ -83,14 +85,18 @@ class MyPopup extends PanelMenu.Button {
 	if ( lang == svDefaultText ) {
 	    svLabel.text = selectedText + svDefaultText;
 	    enLabel.text = enDefaultText;
-	} else {
+	} else if ( lang == enDefaultText ) {
 	    svLabel.text = svDefaultText;
 	    enLabel.text = selectedText + enDefaultText;
+	} else {
+	    log(lang + 'is not a valid language');
+	    svLabel.text = svDefaultText;
+	    enLabel.text = enDefaultText;
 	};
     };
 
     let [, settingsLang] = GLib.spawn_command_line_sync(Me.dir.get_path() + program_get_lang);
-    setLanguage( settingsLang );
+      setLanguage( settingsLang.toString().split(/\s+/).join('') ); // array.toString()
 
     sv.connect('activate', () => {
         Util.spawn([Me.dir.get_path() + program_lang, svDefaultText]);
@@ -121,8 +127,8 @@ class MyPopup extends PanelMenu.Button {
 
     let [, settingsSpeed] = GLib.spawn_command_line_sync(Me.dir.get_path() + program_get_speed);
     let sliderPosition = settingsSpeed - minSpeed
-    log(`speed ${settingsSpeed}`);
-    log(`position of slider ${sliderPosition}`);
+    log(`speed ${settingsSpeed}`); // array.toString()
+    log(`position of slider ${sliderPosition}`); // array.toString()
 
     this._slider = new Slider.Slider(sliderPosition);
     this._slider.accessible_name = _('Night Light Temperature');
