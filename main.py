@@ -7,7 +7,33 @@ import sys
 from gtts import gTTS  # type: ignore
 from src.inputs import read_inputs
 from src.constants import DEFAULT_SOUND_FILE_OUTPUT
+import fcntl
 
+def instance_already_running(label="default"):
+    """
+    Detect if an an instance with the label is already running, globally
+    at the operating system level.
+
+    Using `os.open` ensures that the file pointer won't be closed
+    by Python's garbage collector after the function's scope is exited.
+
+    The lock will be released when the program exits, or could be
+    released if the file pointer were closed.
+    """
+
+    # Create file if it does note exist since os.open does not do it
+    with open('readme.txt', 'w') as f:
+        f.close()
+
+    lock_file_pointer = os.open(f"/tmp/instance_{label}.lock", os.O_WRONLY)
+
+    try:
+        fcntl.lockf(lock_file_pointer, fcntl.LOCK_EX | fcntl.LOCK_NB)
+        already_running = False
+    except IOError:
+        already_running = True
+
+    return already_running
 
 def main(argv=sys.argv[1:]):
     """
@@ -49,16 +75,13 @@ def main(argv=sys.argv[1:]):
         f.close()
 
     # Read input text out loud
-    if inputs.speak and inputs.input_text:
-        #os.system(f'gtts-cli "{inputs.input_text}" --lang {inputs.lang} --nocheck | play -t mp3 - speed {inputs.speed}')
-
+    if inputs.speak and inputs.input_text and not instance_already_running():
         input_cmd = f'{inputs.input_text}'
         lang_cmd = f'--lang {inputs.lang}'
         flag_cmd = '--nocheck'
         gtts_cmd = f'gtts-cli "{input_cmd}" {lang_cmd} {flag_cmd}'
         mpg123_cmd = f'mpg123 --doublespeed "{inputs.speed}" -'
         os.system(f'{gtts_cmd} | {mpg123_cmd} ')
-
 
 if __name__ == "__main__":
     main(sys.argv[1:])

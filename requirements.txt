@@ -4,3 +4,4 @@ yapf >= 0.32.0
 flake8 >= 4.0.1
 mypy >= 0.942
 pyinstaller >= 5.1
+tendo >= 0.2.15
