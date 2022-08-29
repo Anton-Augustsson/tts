@@ -22,7 +22,7 @@ def instance_already_running(label="default"):
     """
 
     # Create file if it does note exist since os.open does not do it
-    with open('readme.txt', 'w') as f:
+    with open(f"/tmp/instance_{label}.lock", 'w') as f:
         f.close()
 
     lock_file_pointer = os.open(f"/tmp/instance_{label}.lock", os.O_WRONLY)
