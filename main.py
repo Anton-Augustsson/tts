@@ -60,7 +60,7 @@ def main(argv=sys.argv[1:]):
 
     def speak(output_file="output_file.mp3", speed=1):
         """Read out load the imputed text"""
-        os.system(f'mpg123 --doublespeed "{speed}" ' + output_file)
+        os.system(f'mpg123 --doublespeed "{int(speed)}" ' + output_file)
         sys.exit(0)
 
     # First Read the input
@@ -80,7 +80,7 @@ def main(argv=sys.argv[1:]):
         lang_cmd = f'--lang {inputs.lang}'
         flag_cmd = '--nocheck'
         gtts_cmd = f'gtts-cli "{input_cmd}" {lang_cmd} {flag_cmd}'
-        mpg123_cmd = f'mpg123 --doublespeed "{inputs.speed}" -'
+        mpg123_cmd = f'mpg123 --doublespeed "{int(inputs.speed)}" -'
         os.system(f'{gtts_cmd} | {mpg123_cmd} ')
 
 if __name__ == "__main__":
