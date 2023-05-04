@@ -9,11 +9,16 @@ from src.inputs import read_inputs
 from src.constants import DEFAULT_SOUND_FILE_OUTPUT
 import fcntl
 import signal
+import pty
+import subprocess
+import time
 
-def signal_handler(signal, frame):
-    print(f'Signal {signal} received')
-    #exit() 
-    
+def pause_process(process):
+    process.send_signal(signal.SIGSTOP)
+
+def resume_process(process):
+    process.send_signal(signal.SIGCONT)
+
 
 def instance_already_running(label="default"):
     """
@@ -58,8 +63,6 @@ def main(argv=sys.argv[1:]):
       tts.py -i someInputFile.txt -o someOutputFile.mp3
     """
 
-    signal.signal(signal.SIGINT, signal_handler)
-
     def saveMp3(text="", output_file="output_file.mp3", lang='se'):
         """
         Save the text to read to the output_file
@@ -89,9 +92,21 @@ def main(argv=sys.argv[1:]):
         input_cmd = f'{inputs.input_text}'
         lang_cmd = f'--lang {inputs.lang}'
         flag_cmd = '--nocheck'
+        input_speed_cmp = f'"{int(inputs.speed)}"'
         gtts_cmd = f'gtts-cli "{input_cmd}" {lang_cmd} {flag_cmd}'
         mpg123_cmd = f'mpg123 --doublespeed "{int(inputs.speed)}" -'
-        os.system(f'{gtts_cmd} | {mpg123_cmd} ')
+
+        args = [f'{gtts_cmd} | {mpg123_cmd} ']
+
+
+        process = subprocess.Popen(args, shell=True)
+
+        # Register signal handler to pause/resume process
+        signal.signal(signal.SIGINT, lambda sig, frame: pause_process(process) if process.poll() is None else None)
+        signal.signal(signal.SIGTSTP, lambda sig, frame: resume_process(process) if process.poll() is None else None)
+
+        # Wait for process to complete
+        process.wait()
 
 if __name__ == "__main__":
     main(sys.argv[1:])
