@@ -8,6 +8,12 @@ from gtts import gTTS  # type: ignore
 from src.inputs import read_inputs
 from src.constants import DEFAULT_SOUND_FILE_OUTPUT
 import fcntl
+import signal
+
+def signal_handler(signal, frame):
+    print(f'Signal {signal} received')
+    #exit() 
+    
 
 def instance_already_running(label="default"):
     """
@@ -20,12 +26,14 @@ def instance_already_running(label="default"):
     The lock will be released when the program exits, or could be
     released if the file pointer were closed.
     """
-
+    file_path = f"/tmp/instance_{label}.lock"
+    
     # Create file if it does note exist since os.open does not do it
-    with open(f"/tmp/instance_{label}.lock", 'w') as f:
+    with open(file_path, 'w') as f:
         f.close()
 
-    lock_file_pointer = os.open(f"/tmp/instance_{label}.lock", os.O_WRONLY)
+    lock_file_pointer = os.open(file_path, os.O_WRONLY)
+    assert os.path.isfile(file_path)
 
     try:
         fcntl.lockf(lock_file_pointer, fcntl.LOCK_EX | fcntl.LOCK_NB)
@@ -49,6 +57,8 @@ def main(argv=sys.argv[1:]):
       # read txt file and save to mp3:
       tts.py -i someInputFile.txt -o someOutputFile.mp3
     """
+
+    signal.signal(signal.SIGINT, signal_handler)
 
     def saveMp3(text="", output_file="output_file.mp3", lang='se'):
         """
