@@ -19,11 +19,11 @@ while getopts 'pkr' OPTION; do
 		esac
 		;;
     k)
-		kill -SIGINT $process
+		kill -SIGINT $process  # ?
 		echo "kill process"
 		;;
     r)
-		aatts --read="$(xclip -o)"
+		aatts --read="$(xclip -o)" # can be read in python script instead if no input is given
 		echo "reading"
 		;;
     ?)
