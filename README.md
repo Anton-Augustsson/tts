@@ -19,6 +19,15 @@ Currently, only linux is supported, preferably with gnome, but not required to r
 
 Run `make install` to install the program. 
 
+### Windows installation
+```
+pyinstaller  --onefile --noconsole main.py
+```
+Note: If you can not run this command even though pyinstaller is installed you can call the pyinstaller exec file directly. It should be located in `C:\Users\<Your username>\AppData\Local\Packages\PythonSoftwareFoundation.<Your Python version>\LocalCache\local-packages\<Your Python version>\Scripts\pyinstaller.exe`
+
+This will generate an executable file in the dist directory. Then Right-click -> new -> shortcut. Put the shortcut in the desktop directory. Then create a keybinding to run that shortcut by right-clicking the shortcut and writing your desired keyboard shortcut.
+
+
 ## Gnome extension
 ![image](img/gnome-extension.png)
 
