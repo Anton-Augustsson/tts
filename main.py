@@ -22,8 +22,8 @@ def main(argv=sys.argv[1:]):
     """
 
     # Read the input and save it into a input model
-    inputs = read_inputs(argv)
     operating_system = get_os()
+    inputs = read_inputs(argv, operating_system)
 
     # Decide if speaking or just saving to file
     if inputs.speak and not instance_already_running(operating_system):

@@ -44,6 +44,6 @@ aatts --read="$(xclip -o)"
 It is also possible to the speed and language.
 
 ``` bash
-aats --speed=1.4 --lang="en"
+aatts --speed=1.4 --lang="en"
 ```
 

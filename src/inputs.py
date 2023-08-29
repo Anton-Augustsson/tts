@@ -3,6 +3,7 @@ import sys
 import getopt
 from src.settings import Settings
 from dataclasses import dataclass
+from src.paths import get_settings_path
 
 
 @dataclass
@@ -15,8 +16,9 @@ class Inputs:
     speak: bool
 
 
-def read_inputs(argv):
-    settings = Settings()
+def read_inputs(argv, operating_system):
+    default_settings, personal_settings = get_settings_path(operating_system)
+    settings = Settings(default_settings, personal_settings)
     inputs = Inputs(speed=settings.speed,
                     lang=settings.lang,
                     input_file="",
