@@ -1,6 +1,5 @@
 import os
 import sys
-import fcntl
 import signal
 import subprocess
 import pyperclip # Write in requirements
@@ -25,6 +24,7 @@ def resume_process(process):
     process.send_signal(signal.SIGCONT)
 
 def instance_already_running_linux(label="default"):
+    import fcntl
     file_path = f"/tmp/instance_{label}.lock"
     
     # Create file if it does note exist since os.open does not do it
@@ -113,6 +113,9 @@ def speak_linux(input):
 
 def speak_windows(input):
     # TODO: make a process instead
+    if input.output_file == "":
+        input.output_file = "output_file.mp3"
+
     save_mp3(text=input.input_text,
              output_file=input.output_file,
              lang=input.lang)
