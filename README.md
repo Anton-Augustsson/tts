@@ -7,12 +7,9 @@
 
 ## Dependencies
 The following dependencies are needed in order to install and run the program.
-- `python3`
-- `pip`
 - `mpg123`
 - `xclip`
 
-See `requirements.txt` for python dependencies.
 
 ## Installation
 Currently, only linux is supported, preferably with gnome, but not required to run `aatts` just allowed the usage of gnome extension. 
@@ -27,11 +24,6 @@ Note: If you can not run this command even though pyinstaller is installed you c
 
 This will generate an executable file in the dist directory. Then Right-click -> new -> shortcut. Put the shortcut in the desktop directory. Then create a keybinding to run that shortcut by right-clicking the shortcut and writing your desired keyboard shortcut.
 
-
-## Gnome extension
-![image](img/gnome-extension.png)
-
-The gnome extension will automatically be installed when ruining `make install`.
 
 ## Usage
 The currently selected text can be determine with `xclip -o`. This command can be used to then 
