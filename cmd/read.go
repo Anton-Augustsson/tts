@@ -11,11 +11,17 @@ var (
 		"cmdRead": "read",
 	}
 
+	text string
+
 	cmdRead = &cobra.Command{
 		Use:   readCmdsUse["cmdRead"],
-		Short: "Modify your settings",
-		Long:  `Set your language speed and more. The changes are persistent and will be saved for `,
+		Short: "Read text or from clipboard",
+		Args:  cobra.NoArgs,
 		RunE: func(cmd *cobra.Command, args []string) error {
+			if text != "" {
+				return read.Read(text)
+			}
+
 			content, err := read.GetContent()
 			if err != nil {
 				return err
@@ -26,5 +32,5 @@ var (
 )
 
 func init() {
-	cmdRead.Flags().StringP(model.Flag.Text.Name, model.Flag.Text.Short, "", model.Flag.Text.Desc)
+	cmdRead.Flags().StringVarP(&text, model.Flag.Text.Name, model.Flag.Text.Short, "", model.Flag.Text.Desc)
 }
