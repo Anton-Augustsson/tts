@@ -15,13 +15,11 @@ var rootCmd = &cobra.Command{
                 Thus it is independent from any program.
                 It can also be run on any platform.`,
 	RunE: func(cmd *cobra.Command, args []string) error {
-		//if len(args) != 0 || cmd.Flags().NFlag() != 0 {
-		//	return errors.New("arguments or flags provided for root argument")
-		//}
 		content, err := read.GetContent()
 		if err != nil {
 			return err
 		}
+		fmt.Println(content)
 		return read.Read(content)
 	},
 }

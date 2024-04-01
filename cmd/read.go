@@ -1,6 +1,8 @@
 package cmd
 
 import (
+	"fmt"
+
 	"github.com/Anton-Augustsson/tts/internal/read"
 	"github.com/Anton-Augustsson/tts/model"
 	"github.com/spf13/cobra"
@@ -19,6 +21,7 @@ var (
 		Args:  cobra.NoArgs,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if text != "" {
+				fmt.Println(text)
 				return read.Read(text)
 			}
 
@@ -26,6 +29,7 @@ var (
 			if err != nil {
 				return err
 			}
+			fmt.Println(content)
 			return read.Read(content)
 		},
 	}
