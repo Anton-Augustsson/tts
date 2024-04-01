@@ -2,6 +2,7 @@ package read
 
 import (
 	"bytes"
+	"strings"
 	"time"
 
 	"github.com/atotto/clipboard" // Import the piper package for text-to-speech
@@ -50,26 +51,38 @@ func Read(content string) error {
 		return err
 	}
 
-	midpoint := len(content) / 2
-	firstHalf := content[:midpoint]
-	secondHalf := content[midpoint:]
-
-	streamer, format, err := prepare(tts, firstHalf)
-	if err != nil {
-		return err
-	}
-	speaker.Init(format.SampleRate, format.SampleRate.N(time.Second/10))
+	words := strings.Fields(content)
+	chunkSize := 15
+	numWords := len(words)
 	done := make(chan bool)
-	play(streamer, done)
-	streamer, format, err = prepare(tts, secondHalf)
-	if err != nil {
-		return err
-	}
-	<-done
-	speaker.Init(format.SampleRate, format.SampleRate.N(time.Second/10))
-	done = make(chan bool)
-	play(streamer, done)
-	<-done
+	isFirst := true
 
+	for i := 0; i < numWords; i += chunkSize {
+		end := i + chunkSize
+		if end > numWords {
+			end = numWords
+		}
+		chunk := words[i:end]
+
+		streamer, format, err := prepare(tts, strings.Join(chunk, " "))
+		if err != nil {
+			return err
+		}
+
+		// The first iteration does not use done
+		if isFirst {
+			go func() {
+				done <- true
+			}()
+			isFirst = false
+		}
+		<-done
+
+		speaker.Init(format.SampleRate, format.SampleRate.N(time.Second/10))
+		done = make(chan bool)
+		play(streamer, done)
+	}
+
+	<-done
 	return nil
 }
