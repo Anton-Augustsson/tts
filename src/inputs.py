@@ -67,6 +67,6 @@ def read_inputs(argv, operating_system):
         elif opt in options["input"]:
             inputs.input_file = arg
         elif opt in options["output"]:
-            inputs.input_file = arg
+            inputs.output_file = arg
 
     return inputs

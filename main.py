@@ -4,7 +4,7 @@
 # https://www.python.org/dev/peps/pep-0008/
 import sys
 from src.inputs import read_inputs
-from src.system_operator import instance_already_running, save_mp3, get_os, read_clipboard, speak
+from src.system_operator import instance_already_running, input_file_to_mp3, get_os, read_clipboard, speak
 
 def main(argv=sys.argv[1:]):
     """
@@ -35,9 +35,9 @@ def main(argv=sys.argv[1:]):
         speak(inputs, operating_system)
     elif not inputs.speak and inputs.input_file:
         # Save input text to file
-        save_mp3(text=inputs.input_text,
-                output_file=inputs.output_file,
-                lang=inputs.lang)
+        input_file_to_mp3(input_file=inputs.input_file,
+                          output_file=inputs.output_file,
+                          lang=inputs.lang)
 
 if __name__ == "__main__":
     main(sys.argv[1:])

@@ -8,3 +8,5 @@ dist
 *.spec
 tests/__pycache__/*
 data/personalSettings.json
+.venv/
+.vscode/

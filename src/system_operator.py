@@ -64,12 +64,16 @@ def instance_already_running(operating_system=OperatingSystem.LINUX):
     elif operating_system == OperatingSystem.MAC:
         return False 
 
+def input_file_to_mp3(input_file="", output_file="output_file.mp3", lang='se'):
+    file = open(input_file, "r").read().replace("\n", " ")
+    tts = gTTS(text = str(file), lang=lang)
+    tts.save(output_file)
+
 def save_mp3(text="", output_file="output_file.mp3", lang='se'):
     """
     Save the text to read to the output_file
     """
     tts = gTTS(text, lang=lang)
-    print(lang)
     tts.save(output_file)
 
 def read_clipboard_linux():
