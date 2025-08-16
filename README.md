@@ -9,8 +9,9 @@
 The following dependencies are needed in order to install and run the program.
 - `python3`
 - `pip`
-- `mpg123`
-- `xclip`
+- `mpg123` for OpenSuse you can use `zypper install mpg123`.
+- `xclip` only for linux.
+- `gtts-cli` for OpenSuse you can use `zypper install python311-gTTS`.
 
 See `requirements.txt` for python dependencies.
 

@@ -15,8 +15,14 @@ class Inputs:
     input_text: str
     speak: bool
 
+def __help_msg():
+    #return " main.py -i <inputfile> -o <outputfile> "
+    return " main.py --read=<text> "
 
 def read_inputs(argv, operating_system):
+    if len(argv) == 0:
+        print('No arguments was given use: main.' + __help_msg())
+
     default_settings, personal_settings = get_settings_path(operating_system)
     settings = Settings(default_settings, personal_settings)
     inputs = Inputs(speed=settings.speed,
@@ -42,7 +48,7 @@ def read_inputs(argv, operating_system):
             argv, "hsli:o:", ["read=", "speed=", "lang=", "ifile=", "ofile="])
     # If input could net be obtained then exit
     except getopt.GetoptError:
-        print('Error run: test.py -i <inputfile> -o <outputfile>')
+        print('Error run: ' + __help_msg())
         sys.exit(2)
 
     # If the inputs could be obtained interpret them
